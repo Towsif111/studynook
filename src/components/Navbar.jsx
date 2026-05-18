@@ -40,10 +40,10 @@ const Navbar = () => {
                         Login
                     </Link>
                     <Link
-                        href="/register"
+                        href="/signup"
                         className="rounded-xl bg-lime-200 px-4 py-2 text-sm font-semibold text-neutral-900 transition hover:bg-lime-300"
                     >
-                        Register
+                        Sign Up
                     </Link>
                 </div>
             </div>
