@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-neutral-950 text-white">
+    <main className="min-h-screen bg-neutral-950 text-white bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.12),transparent_45%)]">
       <section className="relative overflow-hidden px-6 py-20">
         <div className="pointer-events-none absolute inset-0 opacity-70">
           <div className="absolute -left-40 top-10 h-[520px] w-[520px] rounded-full bg-emerald-400/10 blur-[140px]"></div>
