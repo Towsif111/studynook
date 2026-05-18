@@ -57,28 +57,28 @@ const Footer = () => {
 								aria-label="Follow on Facebook"
 								className="grid h-10 w-10 place-items-center rounded-xl border border-neutral-800 bg-neutral-900/60 text-xs font-semibold uppercase text-neutral-200 transition hover:border-neutral-600"
 							>
-								f
+								<i className="fa-brands fa-facebook text-base"></i>
 							</Link>
 							<Link
 								href="#"
 								aria-label="Follow on X"
 								className="grid h-10 w-10 place-items-center rounded-xl border border-neutral-800 bg-neutral-900/60 text-xs font-semibold uppercase text-neutral-200 transition hover:border-neutral-600"
 							>
-								x
+								<i className="fa-brands fa-x-twitter text-base"></i>
 							</Link>
 							<Link
 								href="#"
 								aria-label="Follow on LinkedIn"
 								className="grid h-10 w-10 place-items-center rounded-xl border border-neutral-800 bg-neutral-900/60 text-xs font-semibold uppercase text-neutral-200 transition hover:border-neutral-600"
 							>
-								in
+								<i className="fa-brands fa-linkedin text-base"></i>
 							</Link>
 							<Link
 								href="#"
 								aria-label="Follow on Instagram"
 								className="grid h-10 w-10 place-items-center rounded-xl border border-neutral-800 bg-neutral-900/60 text-xs font-semibold uppercase text-neutral-200 transition hover:border-neutral-600"
 							>
-								ig
+								<i className="fa-brands fa-instagram text-base"></i>
 							</Link>
 						</div>
 					</div>

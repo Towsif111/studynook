@@ -24,13 +24,13 @@ const Navbar = () => {
                 <div className="flex items-center gap-3">
                     <Link
                         href="/login"
-                        className="rounded-full border border-neutral-700 px-4 py-2 text-sm text-neutral-200 transition hover:border-neutral-500 hover:text-white"
+                        className="rounded-xl border border-neutral-700 px-4 py-2 text-sm text-neutral-200 transition hover:border-neutral-500 hover:text-white"
                     >
                         Login
                     </Link>
                     <Link
                         href="/register"
-                        className="rounded-full bg-lime-200 px-4 py-2 text-sm font-semibold text-neutral-900 transition hover:bg-lime-300"
+                        className="rounded-xl bg-lime-200 px-4 py-2 text-sm font-semibold text-neutral-900 transition hover:bg-lime-300"
                     >
                         Register
                     </Link>
