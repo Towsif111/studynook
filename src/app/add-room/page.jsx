@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 const amenities = [
     "Whiteboard",
     "Projector",
@@ -8,6 +12,46 @@ const amenities = [
 ];
 
 const AddRoomPage = () => {
+    const [selectedAmenities, setSelectedAmenities] = useState(new Set());
+
+    const toggleAmenity = (amenity) => {
+        setSelectedAmenities((prev) => {
+            const next = new Set(prev);
+            if (next.has(amenity)) {
+                next.delete(amenity);
+            } else {
+                next.add(amenity);
+            }
+            return next;
+        });
+    };
+
+  const onSubmit = async (e) => {
+        e.preventDefault()
+        const formData = new FormData(e.currentTarget)
+        const destination = Object.fromEntries(formData.entries());
+        const room = {
+            ...destination,
+            amenities: Array.from(selectedAmenities)
+        };
+
+        console.log(room);
+
+        const res = await fetch('http://localhost:5000/room', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(room)
+        })
+
+        const data = await res.json()
+
+        console.log(data)
+
+  } 
+
+
     return (
         <div className="min-h-screen bg-neutral-950 px-6 py-12 text-white">
             <div className="mx-auto w-full max-w-3xl">
@@ -19,12 +63,13 @@ const AddRoomPage = () => {
                 </header>
 
                 <div className="rounded-3xl border border-neutral-800/80 bg-neutral-900/40 p-8 shadow-2xl shadow-black/30">
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={onSubmit}>
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-neutral-200">Room Name</label>
                             <input
+                                name="roomName"
                                 type="text"
-                                placeholder="e.g. The Meridian Suite"
+                                placeholder="add your room.."
                                 className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                             />
                         </div>
@@ -32,8 +77,9 @@ const AddRoomPage = () => {
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-neutral-200">Description</label>
                             <textarea
+                                name="description"
                                 rows={4}
-                                placeholder="Describe the room, its vibe, and what makes it unique..."
+                                placeholder="Describe the room..."
                                 className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                             />
                         </div>
@@ -41,6 +87,7 @@ const AddRoomPage = () => {
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-neutral-200">Image URL</label>
                             <input
+                                name="imageUrl"
                                 type="url"
                                 placeholder="https://images.unsplash.com/..."
                                 className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
@@ -51,24 +98,27 @@ const AddRoomPage = () => {
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-neutral-200">Floor</label>
                                 <input
+                                    name="floor"
                                     type="text"
-                                    placeholder="e.g. 3rd Floor"
+                                    placeholder="3rd"
                                     className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                                 />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-neutral-200">Capacity</label>
                                 <input
+                                    name="capacity"
                                     type="number"
-                                    placeholder="e.g. 4"
+                                    placeholder="4"
                                     className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                                 />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-neutral-200">Hourly Rate ($)</label>
                                 <input
+                                    name="hourlyRate"
                                     type="number"
-                                    placeholder="e.g. 8"
+                                    placeholder="8"
                                     className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                                 />
                             </div>
@@ -76,16 +126,20 @@ const AddRoomPage = () => {
 
                         <div className="space-y-3">
                             <label className="text-sm font-medium text-neutral-200">Amenities</label>
-                            <div className="flex flex-wrap gap-3">
-                                {amenities.map((amenity) => (
-                                    <button
-                                        key={amenity}
-                                        type="button"
-                                        className="rounded-full border border-neutral-800 bg-neutral-900/70 px-4 py-2 text-xs text-neutral-200 transition hover:border-lime-300 hover:text-lime-200"
-                                    >
-                                        {amenity}
-                                    </button>
-                                ))}
+                            <div className="grid grid-cols-3 gap-3">
+                                {amenities.map((amenity) => {
+                                    const isSelected = selectedAmenities.has(amenity);
+                                    return (
+                                        <button
+                                            key={amenity}
+                                            type="button"
+                                            onClick={() => toggleAmenity(amenity)}
+                                            className={`rounded-full border px-4 py-2 text-xs transition ${isSelected ? "border-lime-300 bg-lime-300/20 text-lime-200" : "border-neutral-800 bg-neutral-900/70 text-neutral-200 hover:border-lime-300 hover:text-lime-200"}`}
+                                        >
+                                            {amenity}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
 

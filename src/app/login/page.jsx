@@ -110,7 +110,7 @@ const LoginPage = () => {
                                     <Separator/>
                                     </div>
                                 <div>
-                                    <Button onClick={handleGoogleSignIn} className={'w-full rounded-none '}><FcGoogle />Sign in with Google</Button>
+                                    <Button onClick={handleGoogleSignIn} className={'w-full rounded-none'}><FcGoogle />Sign in with Google</Button>
                                 </div>
             </Card>
         </div>
