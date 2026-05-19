@@ -1,9 +1,13 @@
+import { Button } from "@heroui/react";
 import Image from "next/image";
+import Link from "next/link";
+
 
 const RoomCard = ({room}) => {
-    const {imageUrl, price, roomName, capacity, floor} = room
+    const {_id, imageUrl, price, roomName} = room;
+
     return (
-        <div className="p-2">
+        <div className="overflow-hidden rounded-lg border border-white/10 bg-white text-black shadow">
             <Image
             alt={roomName}
             src={imageUrl}
@@ -12,14 +16,18 @@ const RoomCard = ({room}) => {
             className="h-64 w-full object-cover"
             />
 
-            <div>
+            <div className="p-3">
                 <div className="flex items-center">
                 <h2 className="text-xl font-bold">{roomName}</h2>
                 </div>
-            </div>
                 <div>
                     <h3>{price}</h3>
                 </div>
+                      <Link href={`/rooms/${_id}`}>
+                          <Button className={"rounded-none"}>View Details</Button>
+                      </Link>
+            </div>
+           
 
 
         </div>
