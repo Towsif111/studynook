@@ -1,11 +1,11 @@
-
 import RoomCard from "@/components/roomcard";
 
 const RoomsPage = async () => {
-    const res = await fetch("http://localhost:5000/room");
+    const res = await fetch("http://localhost:5000/room", {
+        cache: "no-store",
+    });
     const rooms = await res.json();
     const roomList = Array.isArray(rooms) ? rooms : [];
-
 
     return (
         <div className="min-h-screen p-6">
@@ -15,7 +15,6 @@ const RoomsPage = async () => {
                 {roomList.map((room) => (
                     <RoomCard key={room._id} room={room} />
                 ))}
-
             </div>
         </div>
     );
