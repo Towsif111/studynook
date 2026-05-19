@@ -1,4 +1,4 @@
-import { FieldError, Input, Label, TextField, Select, ListBox, Button } from "@heroui/react";
+import { FieldError, Input, Label, TextField, Select, ListBox, Button, TextArea } from "@heroui/react";
 
 const AddRoomPage = () => {
     return (

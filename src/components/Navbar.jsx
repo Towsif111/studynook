@@ -4,21 +4,18 @@ import { authClient } from "@/lib/auth-client";
 import { Avatar, Button } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 
 const Navbar = () => {
-    const router = useRouter();
-
     const { 
         data: session, 
     } = authClient.useSession() 
 
     const user = session?.user;
+    const avatarFallback = (user?.name || user?.email || "?").trim().charAt(0).toUpperCase();
 
     const handleSignOut = async () => {
         await authClient.signOut();
-        router.push("/");
     };
 
     return (
@@ -26,16 +23,22 @@ const Navbar = () => {
             <div className="mx-auto flex w-full items-center justify-between gap-6 px-6 py-4">
                 <Link href="/" className="flex items-center gap-3 text-white">
                     <span className="grid h-9 w-9 place-items-center overflow-hidden rounded-lg bg-neutral-900">
-                        <Image src="/assests/logo.png" alt="StudyNook" width={36} height={36} />
+                        <Image src="/assets/logo.png" alt="StudyNook" width={36} height={36} />
                     </span>
                     <span className="text-xl font-semibold tracking-tight">StudyNook</span>
                 </Link>
 
-                <nav className="hidden items-center gap-8 text-sm font-medium text-neutral-300 md:flex">
-                    <Link href="/" className="transition hover:text-white">
+                <nav className="hidden items-center gap-8 text-lg font-medium text-neutral-300 md:flex">
+                    <Link
+                        href="/"
+                        className="transition hover:text-white"
+                    >
                         Home
                     </Link>
-                    <Link href="/rooms" className="transition hover:text-white">
+                    <Link
+                        href="/rooms"
+                        className="transition hover:text-white"
+                    >
                         Rooms
                     </Link>
                     {user && (
@@ -65,7 +68,14 @@ const Navbar = () => {
                 <div className="flex items-center gap-3">
                     {user ? (
                         <>
-                            <Avatar className="h-9 w-9" referrerPolicy="no-referrer" src={user?.image || ""} />
+                            <Avatar>
+                                <Avatar.Image
+                                    referrerPolicy="no-referrer"
+                                    alt={user?.name || "User"}
+                                    src={user?.image}
+                                />
+                                <Avatar.Fallback>{avatarFallback}</Avatar.Fallback>
+                            </Avatar>
                             <Button
                                 size="sm"
                                 onClick={handleSignOut}

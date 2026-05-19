@@ -22,7 +22,6 @@ const AddRoomPage = () => {
                     <form className="space-y-6">
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-neutral-200">Room Name</label>
-                            <span className="block text-lime-300">*</span>
                             <input
                                 type="text"
                                 placeholder="e.g. The Meridian Suite"
@@ -32,7 +31,6 @@ const AddRoomPage = () => {
 
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-neutral-200">Description</label>
-                            <span className="block text-lime-300">*</span>
                             <textarea
                                 rows={4}
                                 placeholder="Describe the room, its vibe, and what makes it unique..."
@@ -42,7 +40,6 @@ const AddRoomPage = () => {
 
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-neutral-200">Image URL</label>
-                            <span className="block text-lime-300">*</span>
                             <input
                                 type="url"
                                 placeholder="https://images.unsplash.com/..."
@@ -53,7 +50,6 @@ const AddRoomPage = () => {
                         <div className="grid gap-4 md:grid-cols-3">
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-neutral-200">Floor</label>
-                                <span className="block text-lime-300">*</span>
                                 <input
                                     type="text"
                                     placeholder="e.g. 3rd Floor"
@@ -62,7 +58,6 @@ const AddRoomPage = () => {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-neutral-200">Capacity</label>
-                                <span className="block text-lime-300">*</span>
                                 <input
                                     type="number"
                                     placeholder="e.g. 4"
@@ -71,7 +66,6 @@ const AddRoomPage = () => {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-neutral-200">Hourly Rate ($)</label>
-                                <span className="block text-lime-300">*</span>
                                 <input
                                     type="number"
                                     placeholder="e.g. 8"

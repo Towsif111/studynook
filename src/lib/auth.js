@@ -12,4 +12,17 @@ export const auth = betterAuth({
   emailAndPassword: { 
     enabled: true, 
   },
+   socialProviders: {
+        google: { 
+            clientId: process.env.GOOGLE_CLIENTID,
+            clientSecret: process.env.GOOGLE_SECRET,
+            overrideUserInfoOnSignIn: true,
+            mapProfileToUser: (profile) => ({
+              name: profile.name,
+              email: profile.email,
+              image: profile.picture,
+              emailVerified: profile.email_verified
+            })
+        }
+      }
 });

@@ -1,6 +1,7 @@
 "use client";
 
-import { Card } from "@heroui/react";
+import { FcGoogle } from "react-icons/fc";
+import { Card, Separator } from "@heroui/react";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
@@ -37,8 +38,16 @@ const SignUpPage = () => {
     };
 
 
+        const handleGoogleSignIn = async() => {
+        await authClient.signIn.social ({
+            provider: "google"
+        })
+
+        }
+
+
     return (
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl py-10">
             <div className="text-center">
                 <h1 className="font-bold text-3xl">Create Account</h1>
                 <p>Join the StudyNook community</p>
@@ -113,9 +122,19 @@ const SignUpPage = () => {
                     </TextField>
 
                     <div className="flex gap-2">
-                        <Button className={'w-full'} type="submit">Create Account</Button>
+                        <Button className={'w-full rounded-none'} type="submit">Create Account</Button>
                     </div>
                 </Form>
+                <div className="flex justify-center items-center">
+                    <Separator/>
+                    <div className="whitespace-nowrap gap-3">
+                        Or Sign Up With
+                    </div>
+                    <Separator/>
+                    </div>
+                <div>
+                    <Button onClick={handleGoogleSignIn} className={'w-full rounded-none'}><FcGoogle />Sign in with Google</Button>
+                </div>
             </Card>
         </div>
     );

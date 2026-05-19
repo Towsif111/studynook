@@ -1,4 +1,5 @@
 
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -10,7 +11,7 @@ export default function Home() {
           <div className="absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-lime-200/10 blur-[140px]"></div>
         </div>
 
-        <div className="relative mx-auto grid w-full max-w-6xl grid-cols-2 items-center gap-12">
+        <div className="relative mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-2">
           <div className="space-y-8">
             <span className="inline-flex items-center gap-2 rounded-full border border-lime-200/30 bg-lime-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-lime-200">
               For students & library users
@@ -44,25 +45,39 @@ export default function Home() {
                 Get Started
               </Link>
             </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[
+                { value: "2,400+", label: "Study Sessions Booked" },
+                { value: "120+", label: "Registered Rooms" },
+                { value: "98%", label: "Satisfaction Rate" },
+                { value: "40+", label: "Partner Libraries" },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5 text-center shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
+                >
+                  <div className="text-2xl font-semibold text-lime-200">{stat.value}</div>
+                  <div className="mt-2 text-[11px] uppercase tracking-wide text-neutral-500">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2">
-            {[
-              { value: "2,400+", label: "Study Sessions Booked" },
-              { value: "120+", label: "Registered Rooms" },
-              { value: "98%", label: "Satisfaction Rate" },
-              { value: "40+", label: "Partner Libraries" },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6 text-center shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
-              >
-                <div className="text-3xl font-semibold text-lime-200">{stat.value}</div>
-                <div className="mt-2 text-xs uppercase tracking-wide text-neutral-500">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+          <div className="relative mx-auto w-full max-w-md lg:max-w-lg">
+            <div className="absolute -inset-6 rounded-[32px] bg-lime-200/10 blur-3xl" />
+            <div className="relative h-[520px] overflow-hidden rounded-[32px] border border-neutral-800 bg-neutral-900/40 shadow-[0_30px_80px_rgba(0,0,0,0.55)]">
+              <Image
+                src="/assests/books.jpg"
+                alt="Stack of books"
+                width={960}
+                height={720}
+                className="h-full w-full object-cover"
+                priority
+              />
+            </div>
           </div>
         </div>
       </section>
