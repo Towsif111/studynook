@@ -17,11 +17,9 @@ const RoomCard = ({room}) => {
             />
 
             <div className="p-3">
-                <div className="flex items-center">
-                <h2 className="text-xl font-bold">{roomName}</h2>
-                </div>
-                <div>
-                    <h3>{price}</h3>
+                <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-bold">{roomName}</h2>
+                    <h3 className="text-right font-semibold">{price}</h3>
                 </div>
                       <Link href={`/rooms/${_id}`}>
                           <Button className={"rounded-none"}>View Details</Button>
