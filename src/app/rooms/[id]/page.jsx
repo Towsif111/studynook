@@ -1,6 +1,8 @@
+import { EditModal } from "@/components/EditModal";
 import { Button } from "@heroui/react";
 import Image from "next/image";
-import Link from "next/link";
+import { BiEdit } from "react-icons/bi";
+
 
 const RoomDetailsPage = async({params}) => {
     const {id} = await params
@@ -26,9 +28,13 @@ const RoomDetailsPage = async({params}) => {
             <p>{category}</p>
             <p>{capacity}</p>
             <p>{availability}</p>
-            <h1 className="text-xl font-bold">OverView</h1>
+            <h1 className="text-xl font-bold mt-10">OverView</h1>
             <p>{description}</p>
+
+            
         </div>
+        
+        <EditModal room={room}/>
 
         </div>
     );
