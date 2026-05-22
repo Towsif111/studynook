@@ -4,8 +4,26 @@ const RoomsPage = async () => {
     const res = await fetch("http://localhost:5000/room", {
         cache: "no-store",
     });
-    const rooms = await res.json();
-    const roomList = Array.isArray(rooms) ? rooms : [];
+    const externalRooms = await res.json();
+    const externalList = Array.isArray(externalRooms) ? externalRooms : [];
+
+    let localList = [];
+    try {
+        const localRes = await fetch("/api/rooms", {
+            cache: "no-store",
+        });
+        if (localRes.ok) {
+            const localData = await localRes.json();
+            localList = Array.isArray(localData) ? localData : [];
+        }
+    } catch (err) {
+        console.error("Failed to fetch local rooms:", err);
+    }
+
+    const roomMap = new Map();
+    externalList.forEach((r) => roomMap.set(r._id, r));
+    localList.forEach((r) => roomMap.set(r._id, r));
+    const roomList = Array.from(roomMap.values());
 
     return (
         <div className="min-h-screen bg-neutral-950 p-6 sm:p-8 lg:p-10">

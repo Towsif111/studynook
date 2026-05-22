@@ -5,10 +5,43 @@ const client = new MongoClient(process.env.MONGODB_URI);
 const db = client.db("studynook");
 const bookings = db.collection("bookings");
 
+export async function GET(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId");
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: "userId query parameter is required" },
+        { status: 400 }
+      );
+    }
+
+    const userBookings = await bookings
+      .find({ userId })
+      .sort({ date: -1 })
+      .toArray();
+
+    // Convert ObjectId to string for JSON serialization
+    const serialized = userBookings.map((b) => ({
+      ...b,
+      _id: b._id.toString(),
+    }));
+
+    return NextResponse.json(serialized);
+  } catch (error) {
+    console.error("Fetch bookings error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch bookings" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { roomId, date, startTime, endTime, userId, userName, userImage, note } = body;
+    const { roomId, date, startTime, endTime, userId, userName, userImage, note, imageUrl, hourlyRate, roomName } = body;
 
     // Validate required fields
     if (!roomId || !date || startTime == null || endTime == null || !userId) {
@@ -52,7 +85,6 @@ export async function POST(request) {
     }
 
     // Conflict check: same room, same date, overlapping hours, confirmed booking
-    // Two intervals [start, end) and [existingStart, existingEnd) overlap if start < existingEnd AND existingStart < end
     const conflict = await bookings.findOne({
       roomId,
       date,
@@ -71,19 +103,23 @@ export async function POST(request) {
     }
 
     // Create the booking
-    const totalCost = (end - start) * (body.hourlyRate || 0);
+    const hours = end - start;
+    const rate = Number(hourlyRate) || 0;
+    const totalCost = hours * rate;
 
     const booking = {
       roomId,
-      roomName: body.roomName || "",
+      roomName: roomName || "Study Room",
+      imageUrl: imageUrl || "",
       date,
       startTime: start,
       endTime: end,
+      hourlyRate: rate,
+      totalCost,
       userId,
       userName: userName || "",
       userImage: userImage || "",
       note: note || "",
-      totalCost,
       status: "confirmed",
       createdAt: new Date(),
     };
@@ -91,7 +127,10 @@ export async function POST(request) {
     const result = await bookings.insertOne(booking);
 
     return NextResponse.json(
-      { success: true, booking: { ...booking, _id: result.insertedId } },
+      {
+        success: true,
+        booking: { ...booking, _id: result.insertedId.toString() },
+      },
       { status: 201 }
     );
   } catch (error) {

@@ -96,19 +96,21 @@ const BookingCard = ({ room }) => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch('http://localhost:5000/booking', {
+      const res = await fetch("http://localhost:5000/bookings", {
         method: "POST",
-        headers: { 'Content-Type' : 'application/json' },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           roomId: room._id,
+          imageUrl: room.imageUrl || "",
+          roomName: room.roomName || "Study Room",
           hourlyRate,
+          totalCost,
           date,
           startTime: start,
           endTime: end,
           userId: user.id,
           userName: user.name || "",
           userImage: user.image || "",
-          note,
         }),
       });
 

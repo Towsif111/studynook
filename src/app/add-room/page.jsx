@@ -1,6 +1,9 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const amenities = [
     "Whiteboard",
@@ -12,7 +15,11 @@ const amenities = [
 ];
 
 const AddRoomPage = () => {
+    const router = useRouter();
+    const { data: session } = authClient.useSession();
+    const user = session?.user;
     const [selectedAmenities, setSelectedAmenities] = useState(new Set());
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const toggleAmenity = (amenity) => {
         setSelectedAmenities((prev) => {
@@ -26,30 +33,48 @@ const AddRoomPage = () => {
         });
     };
 
-  const onSubmit = async (e) => {
-        e.preventDefault()
-        const formData = new FormData(e.currentTarget)
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!user) {
+            toast.error("You must be logged in to add a room.");
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        const formData = new FormData(e.currentTarget);
         const destination = Object.fromEntries(formData.entries());
         const room = {
             ...destination,
-            amenities: Array.from(selectedAmenities)
+            amenities: Array.from(selectedAmenities),
+            userId: user.id,
+            userName: user.name || "",
         };
 
-        console.log(room);
+        try {
+            const res = await fetch("/api/rooms", {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(room),
+            });
 
-        const res = await fetch('http://localhost:5000/room', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(room)
-        })
+            const data = await res.json();
 
-        const data = await res.json()
-
-        console.log(data)
-
-  } 
+            if (res.ok) {
+                toast.success("Room added successfully!");
+                router.push("/my-listings");
+            } else {
+                toast.error(data.error || "Failed to add room.");
+            }
+        } catch (err) {
+            toast.error("Something went wrong. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
 
     return (
@@ -70,6 +95,7 @@ const AddRoomPage = () => {
                                 name="roomName"
                                 type="text"
                                 placeholder="add your room.."
+                                required
                                 className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                             />
                         </div>
@@ -146,15 +172,17 @@ const AddRoomPage = () => {
                         <div className="flex flex-col gap-4 pt-2 sm:flex-row">
                             <button
                                 type="button"
+                                onClick={() => router.back()}
                                 className="flex-1 rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm font-semibold text-neutral-200 transition hover:border-neutral-600 hover:text-white"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="flex-1 rounded-2xl bg-lime-300 px-4 py-3 text-sm font-semibold text-neutral-900 transition hover:bg-lime-200"
+                                disabled={isSubmitting}
+                                className="flex-1 rounded-2xl bg-lime-300 px-4 py-3 text-sm font-semibold text-neutral-900 transition hover:bg-lime-200 disabled:opacity-50"
                             >
-                                Add Room
+                                {isSubmitting ? "Adding..." : "Add Room"}
                             </button>
                         </div>
                     </form>

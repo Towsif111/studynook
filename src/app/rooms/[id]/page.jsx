@@ -7,8 +7,29 @@ import Link from "next/link";
 const RoomDetailsPage = async ({ params }) => {
   const { id } = await params;
 
-  const res = await fetch(`http://localhost:5000/room/${id}`);
-  const room = await res.json();
+  // Try local API first, fall back to external backend
+  let room = null;
+  try {
+    const localRes = await fetch(`/api/rooms?id=${id}`, {
+      cache: "no-store",
+    });
+    if (localRes.ok) {
+      room = await localRes.json();
+    }
+  } catch (err) {
+    console.error("Local fetch failed:", err);
+  }
+
+  if (!room) {
+    try {
+      const res = await fetch(`http://localhost:5000/room/${id}`);
+      if (res.ok) {
+        room = await res.json();
+      }
+    } catch (err) {
+      console.error("External fetch failed:", err);
+    }
+  }
 
   if (!room) {
     return (
@@ -40,10 +61,7 @@ const RoomDetailsPage = async ({ params }) => {
     floor,
     category,
     capacity,
-    availability,
   } = room;
-
-  const isAvailable = availability === "available" || availability === true;
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white">
@@ -80,20 +98,6 @@ const RoomDetailsPage = async ({ params }) => {
                     <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
                       {roomName}
                     </h1>
-                    <span
-                      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${
-                        isAvailable
-                          ? "bg-emerald-500/15 text-emerald-300"
-                          : "bg-red-500/15 text-red-300"
-                      }`}
-                    >
-                      <span
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          isAvailable ? "bg-emerald-400" : "bg-red-400"
-                        }`}
-                      />
-                      {isAvailable ? "Available" : "Booked"}
-                    </span>
                   </div>
                   <p className="text-sm text-neutral-400">{category || "Library Study Room"}</p>
                 </div>
@@ -104,34 +108,19 @@ const RoomDetailsPage = async ({ params }) => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-              <div className="rounded-2xl border border-neutral-800/60 bg-neutral-900/40 p-5 shadow-lg backdrop-blur-sm transition hover:border-neutral-700">
-                <div className="mb-3 grid h-10 w-10 place-items-center rounded-xl bg-lime-300/10 text-lg">
-                  <span aria-hidden="true">🏢</span>
-                </div>
-                <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">Floor</p>
-                <p className="mt-1 text-lg font-semibold text-white">{floor || "—"}</p>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="rounded-xl border border-neutral-800/60 bg-neutral-900/40 p-5">
+                <p className="text-[10px] font-medium uppercase tracking-wider text-red-500">Floor</p>
+                <p className="mt-0.5 text-sm font-semibold text-white">{floor || "—"}</p>
               </div>
-              <div className="rounded-2xl border border-neutral-800/60 bg-neutral-900/40 p-5 shadow-lg backdrop-blur-sm transition hover:border-neutral-700">
-                <div className="mb-3 grid h-10 w-10 place-items-center rounded-xl bg-lime-300/10 text-lg">
-                  <span aria-hidden="true">📂</span>
-                </div>
-                <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">Category</p>
-                <p className="mt-1 text-lg font-semibold text-white">{category || "—"}</p>
+              <div className="rounded-xl border border-neutral-800/60 bg-neutral-900/40 p-5">
+                <p className="text-[10px] font-medium uppercase  text-red-500">Category</p>
+                <p className="mt-0.5 text-sm font-semibold text-white">{category || "—"}</p>
               </div>
-              <div className="rounded-2xl border border-neutral-800/60 bg-neutral-900/40 p-5 shadow-lg backdrop-blur-sm transition hover:border-neutral-700">
-                <div className="mb-3 grid h-10 w-10 place-items-center rounded-xl bg-lime-300/10 text-lg">
-                  <span aria-hidden="true">👥</span>
-                </div>
-                <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">Capacity</p>
-                <p className="mt-1 text-lg font-semibold text-white">{capacity ? `${capacity} People` : "—"}</p>
-              </div>
-              <div className="rounded-2xl border border-neutral-800/60 bg-neutral-900/40 p-5 shadow-lg backdrop-blur-sm transition hover:border-neutral-700">
-                <div className="mb-3 grid h-10 w-10 place-items-center rounded-xl bg-lime-300/10 text-lg">
-                  <span aria-hidden="true">📅</span>
-                </div>
-                <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">Availability</p>
-                <p className="mt-1 text-lg font-semibold text-white">{isAvailable ? "Available" : "Booked"}</p>
+              <div className="rounded-xl border border-neutral-800/60 bg-neutral-900/40 p-5">
+                
+                <p className="text-[10px] font-medium uppercase tracking-wider text-red-500">Capacity</p>
+                <p className="mt-0.5 text-sm font-semibold text-white">{capacity ? `${capacity} People` : "—"}</p>
               </div>
             </div>
 
