@@ -1,3 +1,4 @@
+import { DeleteAlert } from "@/components/DeleteAlert";
 import { EditModal } from "@/components/EditModal";
 import { Button } from "@heroui/react";
 import Image from "next/image";
@@ -9,6 +10,20 @@ const RoomDetailsPage = async({params}) => {
 
     const res = await fetch(`http://localhost:5000/room/${id}`)
     const room = await res.json()
+
+    if (!room) {
+      return (
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold">Room not found</h1>
+            <p className="mt-2 text-gray-500">This room may have been deleted.</p>
+            <a href="/rooms" className="mt-4 inline-block rounded-xl bg-lime-300 px-6 py-2 text-black font-medium">
+              Back to Rooms
+            </a>
+          </div>
+        </div>
+      );
+    }
 
     const {imageUrl, price, roomName, description, floor, category, capacity, availability } = room;
     
@@ -34,7 +49,10 @@ const RoomDetailsPage = async({params}) => {
             
         </div>
         
-        <EditModal room={room}/>
+       <div className="flex justify-end items-center gap-3">
+         <EditModal room={room}/>
+        <DeleteAlert room={room}/>
+       </div>
 
         </div>
     );
