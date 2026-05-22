@@ -1,11 +1,19 @@
 import { NextResponse } from 'next/server'
+import { auth } from './lib/auth'
+import { headers } from 'next/headers'
 
- 
+export async function proxy(request) {
 
-export function proxy(request) {
-  return NextResponse.redirect(new URL('/home', request.url))
+   const session = await auth.api.getSession({
+        headers: await headers()
+    })
+
+    if(!session) {
+         return NextResponse.redirect(new URL('/login', request.url))
+    }
+
 }
- 
+
 export const config = {
-  matcher: '/about/:path*',
+  matcher: ['/my-bookings', '/my-listings', '/add-room', '/rooms/:path'],
 }

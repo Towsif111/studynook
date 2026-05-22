@@ -39,28 +39,24 @@ const Navbar = () => {
                     >
                         Rooms
                     </Link>
-                    {user && (
-                        <>
-                            <Link
-                                href="/add-room"
-                                className="transition hover:text-white"
-                            >
-                                Add Room
-                            </Link>
-                            <Link
-                                href="/my-listings"
-                                className="transition hover:text-white"
-                            >
-                                My Listings
-                            </Link>
-                            <Link
-                                href="/my-bookings"
-                                className="transition hover:text-white"
-                            >
-                                My Bookings
-                            </Link>
-                        </>
-                    )}
+                    <Link
+                        href="/add-room"
+                        className="transition hover:text-white"
+                    >
+                        Add Room
+                    </Link>
+                    <Link
+                        href="/my-listings"
+                        className="transition hover:text-white"
+                    >
+                        My Listings
+                    </Link>
+                    <Link
+                        href="/my-bookings"
+                        className="transition hover:text-white"
+                    >
+                        My Bookings
+                    </Link>
                 </nav>
 
                 <div className="flex items-center gap-3">
