@@ -1,3 +1,4 @@
+import BookingCard from "@/components/Booking";
 import { DeleteAlert } from "@/components/DeleteAlert";
 import { EditModal } from "@/components/EditModal";
 import Image from "next/image";
@@ -148,6 +149,7 @@ const RoomDetailsPage = async ({ params }) => {
             </div>
 
             <div className="flex flex-wrap items-center justify-end gap-3 pt-2">
+              <BookingCard room={room} />
               <EditModal room={room} />
               <DeleteAlert room={room} />
             </div>

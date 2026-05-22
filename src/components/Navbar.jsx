@@ -7,9 +7,7 @@ import Link from "next/link";
 
 
 const Navbar = () => {
-    const { 
-        data: session, 
-    } = authClient.useSession() 
+    const { data: session} = authClient.useSession() 
 
     const user = session?.user;
     const avatarFallback = (user?.name || user?.email || "?").trim().charAt(0).toUpperCase();
