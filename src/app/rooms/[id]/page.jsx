@@ -27,7 +27,7 @@ const RoomDetailsPage = async ({ params }) => {
     }
 
     room = await res.json();
-    console.log(room);
+    
 
   } catch (err) {
     console.error("Failed to fetch room details:", err);
