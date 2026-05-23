@@ -34,7 +34,7 @@ const HomeFeaturedRooms = () => {
       }
 
       try {
-        const res = await fetch("http://localhost:5000/room", { cache: "no-store" });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/room`, { cache: "no-store" });
         const data = await res.json();
         const list = Array.isArray(data) ? data.slice(0, 6) : [];
         setRooms(list);

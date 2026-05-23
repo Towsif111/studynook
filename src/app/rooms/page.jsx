@@ -83,7 +83,7 @@ const RoomsPage = () => {
       
       let externalList = [];
       try {
-        const res = await fetch("http://localhost:5000/room", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/room`, {
           cache: "no-store",
         });
         const externalRooms = await res.json();
