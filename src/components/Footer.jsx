@@ -3,13 +3,16 @@ import Link from "next/link";
 
 const Footer = () => {
 	return (
-		<footer className="mt-auto w-full border-t border-neutral-800/60 bg-neutral-950 text-neutral-300">
+		<footer
+			className="mt-auto w-full border-t border-neutral-800/60 bg-neutral-950 bg-cover bg-center text-neutral-300"
+			style={{ backgroundImage: "url('/assets/layered-waves-haikei.png')" }}
+		>
 			<div className="mx-auto w-full max-w-6xl px-6 py-14">
 				<div className="grid gap-10 md:grid-cols-4">
 					<div className="space-y-4">
 						<Link href="/" className="flex items-center gap-3 text-white">
 							<span className="grid h-10 w-10 place-items-center overflow-hidden rounded-lg bg-neutral-900">
-								<Image src="/assests/logo.png" alt="StudyNook" width={40} height={40} />
+								<Image src="/assets/logo.png" alt="StudyNook" width={40} height={40} />
 							</span>
 							<span className="text-xl font-semibold tracking-tight">StudyNook</span>
 						</Link>

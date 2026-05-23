@@ -10,6 +10,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
     const id = searchParams.get("id");
+    const limit = searchParams.get("limit");
 
     let query = {};
     if (id) {
@@ -27,10 +28,11 @@ export async function GET(request) {
       return NextResponse.json({ ...room, _id: room._id.toString() });
     }
 
-    const allRooms = await rooms
-      .find(query)
-      .sort({ createdAt: -1 })
-      .toArray();
+    let cursor = rooms.find(query).sort({ createdAt: -1 });
+    if (limit) {
+      cursor = cursor.limit(Number(limit));
+    }
+    const allRooms = await cursor.toArray();
 
     // Convert ObjectId to string for JSON serialization
     const serialized = allRooms.map((r) => ({
