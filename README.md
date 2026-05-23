@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# StudyNook
+
+StudyNook is a student-first platform for discovering, booking, and listing quiet study rooms. Browse rooms, filter by amenities and price, manage bookings, and create listings—all in one place.
+
+---
+
+## Key Features
+
+- **Room discovery & filtering**: Search by name, filter by amenities, floor, and hourly rate range.
+- **Authentication**: Sign in using email/password and **Google**.
+- **Bookings**: Create and manage room bookings.
+- **Room listings**: Add and manage your own study room listings.
+- **Room details**: Dedicated pages for room information.
+
+---
+
+## Tech Stack
+
+- **Next.js** (App Router)
+- **React**
+- **HerUI** (UI components)
+- **react-hot-toast** (notifications)
+- **API routes** under `src/app/api/**`
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (LTS recommended)
+- npm
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Run Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app/`
+  - UI pages/routes
+  - API endpoints under `src/app/api/**`
+- `src/components/`
+  - Reusable UI components (room cards, alerts, booking UI, etc.)
+- `src/lib/`
+  - Authentication utilities and client helpers
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API Endpoints
 
-## Deploy on Vercel
+The application uses Next.js API routes located at:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `src/app/api/rooms/**`
+- `src/app/api/bookings/**`
+- `src/app/api/auth/**`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Configuration / Environment Variables
+
+If your authentication or API layer requires environment variables, create a local `.env` file and add the required values for your setup.
+
+---
+
+## Deployment
+
+This project can be deployed on any Next.js-compatible hosting platform (e.g., **Vercel**).
+
+---
+
+## Notes
+
+If you run a separate backend for rooms/bookings, ensure the frontend requests (base URL / proxy settings) match your backend configuration.
+

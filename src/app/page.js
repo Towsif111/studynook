@@ -5,7 +5,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
-      {/* ───── Hero Section ───── */}
       <section className="relative overflow-hidden px-6 py-20">
         <div className="pointer-events-none absolute inset-0 opacity-70">
           <div className="absolute -left-40 top-10 h-[520px] w-[520px] rounded-full bg-emerald-400/10 blur-[140px]"></div>
@@ -83,20 +82,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───── Divider ───── */}
+     
       <div className="mx-auto max-w-6xl px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-neutral-800 to-transparent" />
       </div>
 
-      {/* ───── Featured Rooms ───── */}
+      
       <HomeFeaturedRooms />
 
-      {/* ───── Divider ───── */}
+    
       <div className="mx-auto max-w-6xl px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-neutral-800 to-transparent" />
       </div>
 
-      {/* ───── How It Works ───── */}
+    
       <section className="relative overflow-hidden px-6 py-20">
         <div className="pointer-events-none absolute inset-0 opacity-40">
           <div className="absolute -right-40 bottom-10 h-[400px] w-[400px] rounded-full bg-emerald-400/5 blur-[120px]" />

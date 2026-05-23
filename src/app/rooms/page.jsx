@@ -19,7 +19,7 @@ const RoomsPage = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Filter state
+  
   const [search, setSearch] = useState("");
   const [selectedAmenities, setSelectedAmenities] = useState(new Set());
   const [minRate, setMinRate] = useState("");
@@ -27,7 +27,7 @@ const RoomsPage = () => {
   const [floor, setFloor] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
-  // Debounce timer for search
+  
   const debounceRef = useRef(null);
 
   const toggleAmenity = (amenity) => {
@@ -50,12 +50,12 @@ const RoomsPage = () => {
   const hasActiveFilters =
     search || selectedAmenities.size > 0 || minRate || maxRate || floor;
 
-  // Debounced fetch – internal filter for external rooms and API call
+
   const fetchRooms = useCallback(async () => {
     setLoading(true);
 
     try {
-      // Build local API query params
+      
       const params = new URLSearchParams();
       if (search) params.set("search", search);
       if (selectedAmenities.size > 0)
@@ -66,7 +66,7 @@ const RoomsPage = () => {
 
       const queryString = params.toString();
 
-      // Fetch local rooms (server-side filtered via MongoDB operators)
+      
       let localList = [];
       try {
         const localRes = await fetch(`/api/rooms${queryString ? `?${queryString}` : ""}`, {
@@ -80,7 +80,7 @@ const RoomsPage = () => {
         console.error("Failed to fetch local rooms:", err);
       }
 
-      // Fetch external rooms
+      
       let externalList = [];
       try {
         const res = await fetch("http://localhost:5000/room", {
@@ -92,7 +92,7 @@ const RoomsPage = () => {
         console.error("Failed to fetch external rooms:", err);
       }
 
-      // Apply client-side filters to external rooms (not filtered via our API)
+     
       const filterExternal = (room) => {
         const searchLower = search.toLowerCase();
         if (search && !room.roomName?.toLowerCase().includes(searchLower)) {
@@ -121,7 +121,7 @@ const RoomsPage = () => {
         ? externalList.filter(filterExternal)
         : externalList;
 
-      // Merge: local rooms take priority over external
+      
       const roomMap = new Map();
       localList.forEach((r) => roomMap.set(r._id, r));
       filteredExternal.forEach((r) => {
@@ -136,7 +136,7 @@ const RoomsPage = () => {
     }
   }, [search, selectedAmenities, minRate, maxRate, floor]);
 
-  // Fetch on mount and whenever filters change (debounced)
+ 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
@@ -154,7 +154,6 @@ const RoomsPage = () => {
   return (
     <div className="min-h-screen bg-neutral-950 p-6 sm:p-8 lg:p-10">
       <div className="mx-auto max-w-7xl">
-        {/* Page header */}
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
@@ -194,10 +193,10 @@ const RoomsPage = () => {
           </button>
         </div>
 
-        {/* Search & filter panel */}
+        
         {showFilters && (
           <div className="mt-6 rounded-2xl border border-neutral-800/60 bg-neutral-900/60 p-5 shadow-xl shadow-black/20 backdrop-blur-sm sm:p-6">
-            {/* Search input */}
+            
             <div className="relative">
               <svg
                 className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500"
@@ -222,7 +221,7 @@ const RoomsPage = () => {
             </div>
 
             <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {/* Amenities checkboxes */}
+              
               <div className="space-y-2.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
                   Amenities
@@ -248,7 +247,7 @@ const RoomsPage = () => {
                 </div>
               </div>
 
-              {/* Hourly rate range */}
+             
               <div className="space-y-2.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
                   Hourly Rate ($)
@@ -274,7 +273,7 @@ const RoomsPage = () => {
                 </div>
               </div>
 
-              {/* Floor filter */}
+         
               <div className="space-y-2.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
                   Floor
@@ -289,7 +288,6 @@ const RoomsPage = () => {
               </div>
             </div>
 
-            {/* Clear filters */}
             {hasActiveFilters && (
               <div className="mt-4 flex justify-end border-t border-neutral-800/40 pt-4">
                 <button
@@ -303,7 +301,7 @@ const RoomsPage = () => {
           </div>
         )}
 
-        {/* Room cards */}
+        
         {loading ? (
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
