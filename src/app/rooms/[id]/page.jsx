@@ -1,37 +1,40 @@
 import BookingCard from "@/components/Booking";
 import { DeleteAlert } from "@/components/DeleteAlert";
 import { EditModal } from "@/components/EditModal";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
 const RoomDetailsPage = async ({ params }) => {
   const { id } = await params;
+  const {token} = await auth.api.getToken({
+    headers: await headers()
+  })
 
-  // Try local API first, fall back to external backend
+
   let room = null;
   try {
-    const localRes = await fetch(`/api/rooms?id=${id}`, {
+    const res = await fetch(`http://localhost:5000/room/${id}`, {
       cache: "no-store",
-    });
-    if (localRes.ok) {
-      room = await localRes.json();
-    }
-  } catch (err) {
-    console.error("Local fetch failed:", err);
-  }
-
-  if (!room) {
-    try {
-      const res = await fetch(`http://localhost:5000/room/${id}`);
-      if (res.ok) {
-        room = await res.json();
+      headers: {
+        authorization: `Bearer ${token}`
       }
-    } catch (err) {
-      console.error("External fetch failed:", err);
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch room");
     }
+
+    room = await res.json();
+    console.log(room);
+
+  } catch (err) {
+    console.error("Failed to fetch room details:", err);
   }
 
   if (!room) {
+    
     return (
       <div className="flex min-h-screen items-center justify-center bg-neutral-950">
         <div className="text-center">
@@ -40,7 +43,7 @@ const RoomDetailsPage = async ({ params }) => {
           </div>
           <h1 className="text-2xl font-bold text-white">Room not found</h1>
           <p className="mt-2 text-neutral-400">
-            This room may have been deleted or doesn&apos;t exist.
+            This room may have been deleted or doesn't exist.
           </p>
           <Link
             href="/rooms"

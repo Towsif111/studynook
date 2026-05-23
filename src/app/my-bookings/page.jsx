@@ -14,7 +14,7 @@ const MyBookingsPage = async () => {
 
    if (user) {
      try {
-       const res = await fetch(`http://localhost:5000/userId=${user.id}`, {
+       const res = await fetch(`http://localhost:5000/booking/${user.id}`, {
          cache: "no-store",
        });
        if (res.ok) {

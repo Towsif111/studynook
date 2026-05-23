@@ -39,7 +39,7 @@ export default function Home() {
                 <span aria-hidden="true">→</span>
               </Link>
               <Link
-                href="/register"
+                href="/rooms"
                 className="inline-flex items-center rounded-xl border border-neutral-700 px-6 py-3 text-sm font-semibold text-neutral-200 transition hover:border-neutral-500 hover:text-white"
               >
                 Get Started

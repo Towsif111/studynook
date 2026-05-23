@@ -3,10 +3,12 @@
 import { authClient } from "@/lib/auth-client";
 import { Avatar, Button } from "@heroui/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 
 const Navbar = () => {
+    const router = useRouter();
     const { data: session} = authClient.useSession() 
 
     const user = session?.user;
@@ -14,6 +16,7 @@ const Navbar = () => {
 
     const handleSignOut = async () => {
         await authClient.signOut();
+        router.push("/");
     };
 
     return (
@@ -39,24 +42,28 @@ const Navbar = () => {
                     >
                         Rooms
                     </Link>
-                    <Link
-                        href="/add-room"
-                        className="transition hover:text-white"
-                    >
-                        Add Room
-                    </Link>
-                    <Link
-                        href="/my-listings"
-                        className="transition hover:text-white"
-                    >
-                        My Listings
-                    </Link>
-                    <Link
-                        href="/my-bookings"
-                        className="transition hover:text-white"
-                    >
-                        My Bookings
-                    </Link>
+                    {user && (
+                        <>
+                            <Link
+                                href="/add-room"
+                                className="transition hover:text-white"
+                            >
+                                Add Room
+                            </Link>
+                            <Link
+                                href="/my-listings"
+                                className="transition hover:text-white"
+                            >
+                                My Listings
+                            </Link>
+                            <Link
+                                href="/my-bookings"
+                                className="transition hover:text-white"
+                            >
+                                My Bookings
+                            </Link>
+                        </>
+                    )}
                 </nav>
 
                 <div className="flex items-center gap-3">

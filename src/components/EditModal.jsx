@@ -3,6 +3,7 @@
 import React from "react";
 import {Button, Modal, Surface} from "@heroui/react";
 import { BiEdit } from "react-icons/bi";
+import toast from "react-hot-toast";
 
 export function EditModal ({room}) {   
   const {_id ,imageUrl, price, roomName, description, floor, category, capacity, availability } = room ?? {};
@@ -16,7 +17,9 @@ export function EditModal ({room}) {
     "Library",
   ];
 
-  const [selectedAmenities, setSelectedAmenities] = React.useState(new Set());
+  const [selectedAmenities, setSelectedAmenities] = React.useState(
+    new Set(room?.amenities || [])
+  );
 
   const toggleAmenity = (amenity) => {
     setSelectedAmenities((prev) => {
@@ -30,24 +33,26 @@ export function EditModal ({room}) {
      const onSubmit = async (e) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
-        const room = Object.fromEntries(formData.entries());
+        const updatedData = Object.fromEntries(formData.entries());
 
-        room.amenities = Array.from(selectedAmenities);
-
-        console.log(room);
+        updatedData.amenities = Array.from(selectedAmenities);
 
         const res = await fetch(`http://localhost:5000/room/${_id}`, {
              method: 'PATCH',
              headers: {
                  'content-type': 'application/json'
              },
-             body: JSON.stringify(room)
+             body: JSON.stringify(updatedData)
          })
 
          const data = await res.json()
 
-         console.log(data)
-
+         if (res.ok) {
+            toast.success("Room updated successfully!");
+            window.location.reload();
+         } else {
+            toast.error(data.message || "Failed to update room");
+         }
   } ;
 
 
@@ -68,9 +73,9 @@ export function EditModal ({room}) {
                 <div className="bg-neutral-950 px-4 py-6 text-white">
             <div className="mx-auto w-full max-w-3xl">
                 <header className="mb-8">
-                    <h1 className="text-4xl font-semibold tracking-tight">List Your Room</h1>
+                    <h1 className="text-4xl font-semibold tracking-tight">Edit Room Details</h1>
                     <p className="mt-2 text-sm text-neutral-400">
-                        Fill in the details to make your study space available to others.
+                        Update the information for this study space.
                     </p>
                 </header>
 
@@ -81,6 +86,7 @@ export function EditModal ({room}) {
                             <input
                                 name="roomName"
                                 type="text"
+                                defaultValue={roomName}
                                 placeholder="add your room.."
                                 className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                             />
@@ -91,6 +97,7 @@ export function EditModal ({room}) {
                             <textarea
                                 name="description"
                                 rows={4}
+                                defaultValue={description}
                                 placeholder="Describe the room..."
                                 className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                             />
@@ -101,6 +108,7 @@ export function EditModal ({room}) {
                             <input
                                 name="imageUrl"
                                 type="url"
+                                defaultValue={imageUrl}
                                 placeholder="https://images.com/..."
                                 className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                             />
@@ -113,6 +121,7 @@ export function EditModal ({room}) {
                                 <input
                                     name="floor"
                                     type="text"
+                                    defaultValue={floor}
                                     placeholder="3rd"
                                     className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                                 />
@@ -122,6 +131,7 @@ export function EditModal ({room}) {
                                 <input
                                     name="capacity"
                                     type="number"
+                                    defaultValue={capacity}
                                     placeholder="4"
                                     className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                                 />
@@ -131,6 +141,7 @@ export function EditModal ({room}) {
                                 <input
                                     name="hourlyRate"
                                     type="number"
+                                    defaultValue={room?.hourlyRate || price}
                                     placeholder="8"
                                     className="w-full rounded-2xl border border-neutral-800 bg-neutral-900/70 px-4 py-3 text-sm text-white outline-none transition focus:border-lime-300"
                                 />

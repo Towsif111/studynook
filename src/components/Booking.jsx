@@ -96,7 +96,7 @@ const BookingCard = ({ room }) => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("http://localhost:5000/bookings", {
+      const res = await fetch("http://localhost:5000/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

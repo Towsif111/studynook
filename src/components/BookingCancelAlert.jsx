@@ -7,10 +7,10 @@ import toast from "react-hot-toast";
 export function BookingCancelAlert({ bookingId }) {
   const handleCancelBooking = async () => {
     try {
-      const res = await fetch(`/http://localhost:5000/bookings/${bookingId}`, {
+      const res = await fetch(`http://localhost:5000/booking/${bookingId}`, {
         method: "DELETE",
         headers: {
-          "content-type": "application/json",
+          "Content-type": "application/json",
         },
       });
 
