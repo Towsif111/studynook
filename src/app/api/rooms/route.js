@@ -11,12 +11,41 @@ export async function GET(request) {
     const userId = searchParams.get("userId");
     const id = searchParams.get("id");
     const limit = searchParams.get("limit");
+    const search = searchParams.get("search");
+    const amenities = searchParams.get("amenities");
+    const minRate = searchParams.get("minRate");
+    const maxRate = searchParams.get("maxRate");
+    const floor = searchParams.get("floor");
 
     let query = {};
     if (id) {
       query._id = new ObjectId(id);
     } else if (userId) {
       query.userId = userId;
+    }
+
+    // Search by room name (case-insensitive, regex-escaped)
+    if (search) {
+      const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      query.roomName = { $regex: escaped, $options: "i" };
+    }
+
+    // Filter by amenities (comma-separated list)
+    if (amenities) {
+      const amenityList = amenities.split(",").map((a) => a.trim());
+      query.amenities = { $in: amenityList };
+    }
+
+    // Filter by floor (case-insensitive match)
+    if (floor) {
+      query.floor = { $regex: floor, $options: "i" };
+    }
+
+    // Filter by hourly rate range
+    if (minRate || maxRate) {
+      query.hourlyRate = {};
+      if (minRate) query.hourlyRate.$gte = Number(minRate);
+      if (maxRate) query.hourlyRate.$lte = Number(maxRate);
     }
 
     // If fetching by id, return single object

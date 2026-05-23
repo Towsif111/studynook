@@ -64,6 +64,7 @@ const RoomDetailsPage = async ({ params }) => {
     floor,
     category,
     capacity,
+    amenities,
   } = room;
 
   return (
@@ -126,6 +127,28 @@ const RoomDetailsPage = async ({ params }) => {
                 <p className="mt-0.5 text-sm font-semibold text-white">{capacity ? `${capacity} People` : "—"}</p>
               </div>
             </div>
+
+            {amenities && amenities.length > 0 && (
+              <div className="rounded-3xl border border-neutral-800/80 bg-neutral-900/40 p-6 shadow-2xl shadow-black/30 backdrop-blur-sm sm:p-8">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="h-px flex-1 bg-gradient-to-r from-lime-300/40 to-transparent" />
+                  <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-lime-200">
+                    Amenities
+                  </h2>
+                  <div className="h-px flex-1 bg-gradient-to-l from-lime-300/40 to-transparent" />
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {amenities.map((amenity) => (
+                    <span
+                      key={amenity}
+                      className="inline-flex items-center rounded-full border border-lime-300/20 bg-lime-300/10 px-3.5 py-1.5 text-xs font-medium text-lime-200"
+                    >
+                      {amenity}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="rounded-3xl border border-neutral-800/80 bg-neutral-900/40 p-6 shadow-2xl shadow-black/30 backdrop-blur-sm sm:p-8">
               <div className="mb-5 flex items-center gap-3">

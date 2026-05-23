@@ -10,9 +10,11 @@ export function EditModal ({room}) {
   const amenities = [
     "Whiteboard",
     "Projector",
-    "Air Conditioner",
-    "Charging Points",
     "Wi-Fi",
+    "Power Outlets",
+    "Quiet Zone",
+    "Air Conditioning",
+    "Charging Points",
     "Ergonomic Chair",
     "Library",
   ];

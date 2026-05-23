@@ -1,12 +1,13 @@
 "use client";
 
 import { TrashBin } from "@gravity-ui/icons";
-import {
-  AlertDialog, Button} from "@heroui/react";
-
+import { AlertDialog, Button } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 
 export function DeleteAlert({room}) {
+  const router = useRouter();
   const {_id, roomName} = room;
 
    const handleDelete = async () => {
@@ -24,9 +25,13 @@ export function DeleteAlert({room}) {
 
       const data = await res.json();
       console.log(data);
-      window.location.href = '/rooms';
+      toast.success("Room deleted successfully.");
+      setTimeout(() => {
+        router.push("/rooms");
+      }, 800);
     } catch (err) {
       console.error("Delete error:", err);
+      toast.error(err.message || "Failed to delete room.");
     }
   };
 

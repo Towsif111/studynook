@@ -12,6 +12,9 @@ const amenities = [
     "Power Outlets",
     "Quiet Zone",
     "Air Conditioning",
+    "Charging Points",
+    "Ergonomic Chair",
+    "Library",
 ];
 
 const AddRoomPage = () => {
