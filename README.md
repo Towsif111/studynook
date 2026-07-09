@@ -1,89 +1,72 @@
 # StudyNook
 
-StudyNook is a student-first platform for discovering, booking, and listing quiet study rooms. Browse rooms, filter by amenities and price, manage bookings, and create listings—all in one place.
+## Overview
+StudyNook is a student-first platform for discovering, booking, and listing quiet study rooms. It lets users browse rooms, manage bookings, and create their own listings in one place.
 
----
+## Live Demo
+[View Project](https://studynook-beta.vercel.app)
 
-## Key Features
+## Technologies Used
+- Next.js 16
+- React 19
+- Better Auth
+- MongoDB
+- HeroUI
+- Tailwind CSS
+- react-hot-toast
+- React Icons
 
-- **Room discovery & filtering**: Search by name, filter by amenities, floor, and hourly rate range.
-- **Authentication**: Sign in using email/password and **Google**.
-- **Bookings**: Create and manage room bookings.
-- **Room listings**: Add and manage your own study room listings.
-- **Room details**: Dedicated pages for room information.
+## Features
+- Room browsing with dedicated detail pages
+- Search and filtering for study rooms
+- Authentication with protected user flows
+- Booking creation and cancellation
+- Room listing creation and management
+- Toast notifications for user feedback
 
----
+## Dependencies
+- `next`
+- `react`
+- `react-dom`
+- `better-auth`
+- `mongodb`
+- `@heroui/react`
+- `@heroui/styles`
+- `react-hot-toast`
+- `react-icons`
 
-## Tech Stack
+## Screenshot
+![Project Screenshot](src/screen/Screenshot%202026-07-09%20223236.png)
+![Project Screenshot](src/screen/Screenshot%202026-07-09%20223301.png)
+![Project Screenshot](src/screen/Screenshot%202026-07-09%20223327.png)
 
-- **Next.js** (App Router)
-- **React**
-- **HerUI** (UI components)
-- **react-hot-toast** (notifications)
-- **API routes** under `src/app/api/**`
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (LTS recommended)
-- npm
-
-### Install Dependencies
-
-```bash
-npm install
-```
-
-### Run Locally
-
-```bash
-npm run dev
-```
-
-Then open:
-
-- http://localhost:3000
-
----
+## How to Run Locally
+1. Clone the repository.
+  ```bash
+  git clone https://github.com/Towsif111/studynook.git
+  ```
+2. Navigate to the project folder.
+  ```bash
+  cd studynook
+  ```
+3. Install dependencies.
+  ```bash
+  npm install
+  ```
+4. Start the development server.
+  ```bash
+  npm run dev
+  ```
+5. Open the app in your browser.
+  ```text
+  http://localhost:3000
+  ```
 
 ## Project Structure
-
-- `src/app/`
-  - UI pages/routes
-  - API endpoints under `src/app/api/**`
-- `src/components/`
-  - Reusable UI components (room cards, alerts, booking UI, etc.)
-- `src/lib/`
-  - Authentication utilities and client helpers
-
----
-
-## API Endpoints
-
-The application uses Next.js API routes located at:
-
-- `src/app/api/rooms/**`
-- `src/app/api/bookings/**`
-- `src/app/api/auth/**`
-
----
-
-## Configuration / Environment Variables
-
-If your authentication or API layer requires environment variables, create a local `.env` file and add the required values for your setup.
-
----
-
-## Deployment
-
-This project can be deployed on any Next.js-compatible hosting platform (e.g., **Vercel**).
-
----
+- `src/app/` for routes, pages, and API endpoints
+- `src/components/` for reusable UI components
+- `src/lib/` for auth helpers and client utilities
 
 ## Notes
-
-If you run a separate backend for rooms/bookings, ensure the frontend requests (base URL / proxy settings) match your backend configuration.
+Add your deployed URL and a real screenshot before publishing the README.
 
